@@ -1,6 +1,6 @@
+import { getLatestCars } from '../controllers/latest_cars';
 const latestCarsRoute = require('express').Router();
-const latestCarsController = require('../controllers/latest_cars');
 
-router.get('/last-10-cars', latestCarsController.getLatestCars);
+latestCarsRoute.get('/last-10-cars', getLatestCars);
 
-module.exports = latestCarsRoute;
+export default latestCarsRoute;

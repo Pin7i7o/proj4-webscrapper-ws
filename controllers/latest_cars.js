@@ -1,12 +1,13 @@
-const latestCarsService = require('../services/latest_cars');
+import { getLatest10 } from '../services/latest_cars';
 
-exports.getLatestCars = async (req, res) => {
+export async function getLatestCars(req, res) {
     try {
-        const latestCars = await latestCarsService.getLatest10();
-        res.json(latestCars);
+        const { km, fromYear, toYear, fromPrice, toPrice, url } = req.query;
+        const params = await getLatest10(km, fromYear, toYear, fromPrice, toPrice, url);
+        res.json(params);
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
     }
 }
-

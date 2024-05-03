@@ -1,13 +1,11 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+import { get } from 'axios';
+import { load } from 'cheerio';
 
-const url = 'https://www.standvirtual.com/carros?search%5Bfilter_enum_fuel_type%5D=electric&search%5Border%5D=created_at_first%3Adesc';
-
-exports.scrapeLast10 = async () => {
+export async function scrapeLast10(url) {
     try{
-        const { data: html } = await axios.get(url);
-        const $ = cheerio.load(html);
-        const last10Cars = [];
+        const { data: html } = await get(url);
+        const $ = load(html);
+        let last10Cars = [];
 
         const cars = $('[data-testid="search-results"] section.ooa-10gfd0w.e1i3khom1');
         let count = 0;
