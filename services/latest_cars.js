@@ -1,10 +1,10 @@
-import { buildUrl } from '../utils/urlBuilder';
-import { scrapeLast10 } from '../utils/scraper';
+const urlBuilder = require('../utils/urlBuilder');
+const scraper = require('../utils/scraper');
 
-export async function getLatest10(km, fromYear, toYear, fromPrice, toPrice, url) {
+exports.getLatest10 = async (km, fromYear, toYear, fromPrice, toPrice, url) => {
     try {
-        const builtUrl = buildUrl(km, fromYear, toYear, fromPrice, toPrice, url);
-        const last10Cars = await scrapeLast10(builtUrl);
+        const builtUrl = urlBuilder.buildUrl(km, fromYear, toYear, fromPrice, toPrice, url);
+        const last10Cars = await scraper.scrapeLast10(builtUrl);
         return last10Cars;
 
     } catch (error) {
