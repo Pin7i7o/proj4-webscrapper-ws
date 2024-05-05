@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
+//Webscraper to get info on the 10 cars
 exports.scrapeLast10 = async (url) => {
     try{
         const { data: html } = await axios.get(url);

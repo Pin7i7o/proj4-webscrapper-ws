@@ -1,3 +1,4 @@
+//Builds a custom url to match website standards
 exports.buildUrl = (km, fromYear, toYear, fromPrice, toPrice, url) => {
     let newUrl = url;
 
