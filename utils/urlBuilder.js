@@ -25,7 +25,5 @@ exports.buildUrl = (km, fromYear, toYear, fromPrice, toPrice, url) => {
 
     newUrl += '&search%5Border%5D=created_at_first%3Adesc';
 
-    console.log(newUrl)
-
     return newUrl;
 }
