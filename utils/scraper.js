@@ -1,10 +1,10 @@
-import { get } from 'axios';
-import { load } from 'cheerio';
+const axios = require('axios');
+const cheerio = require('cheerio');
 
-export async function scrapeLast10(url) {
+exports.scrapeLast10 = async (url) => {
     try{
-        const { data: html } = await get(url);
-        const $ = load(html);
+        const { data: html } = await axios.get(url);
+        const $ = cheerio.load(html);
         let last10Cars = [];
 
         const cars = $('[data-testid="search-results"] section.ooa-10gfd0w.e1i3khom1');
