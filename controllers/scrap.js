@@ -1,4 +1,4 @@
-const services = require('../services/latest_cars');
+const services = require('../services/scrap');
 
 //return the 10 most recently posted cars w/o filters
 exports.getLatestCars = async (req, res) => {

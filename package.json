@@ -7,10 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
   "author": "Guilherme Pinto",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^5.13.0",
     "axios": "^1.6.8",
+    "body-parser": "^1.20.2",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
