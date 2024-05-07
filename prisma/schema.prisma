@@ -8,11 +8,11 @@ datasource db {
 }
 
 model Cars {
-  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  model  String? @db.VarChar
-  make   String? @db.VarChar
-  url    String  @db.VarChar
-  active Boolean
+  id     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  model  String?  @db.VarChar
+  make   String?  @db.VarChar
+  url    String   @db.VarChar
+  active Boolean? @default(true)
   Scrap  Scrap[]
 }
 
