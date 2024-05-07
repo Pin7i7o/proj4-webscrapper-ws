@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cars {
+  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  model  String? @db.VarChar
+  make   String? @db.VarChar
+  url    String  @db.VarChar
+  active Boolean
+  Scrap  Scrap[]
+}
+
+model Responses {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  model_make  String @db.VarChar
+  km          String @db.VarChar
+  year        String @db.VarChar
+  price       String @db.VarChar
+  url         String @db.VarChar
+  scrap_id_fk String @db.Uuid
+  Scrap       Scrap  @relation(fields: [scrap_id_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Scrap_fk_constraint")
+}
+
+model Scrap {
+  id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  date_hour  DateTime    @db.Timestamp(6)
+  cars_id_fk String      @db.Uuid
+  Responses  Responses[]
+  Cars       Cars        @relation(fields: [cars_id_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Cars_fk_constraint")
+}
