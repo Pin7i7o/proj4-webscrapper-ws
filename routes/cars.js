@@ -1,7 +1,7 @@
-const carsRoute = require('express').Router();
+const route = require('express').Router();
 const controller = require('../controllers/cars')
 
 
-carsRoute.post('/add-cars', controller.createCars); //Create new car
+route.post('/add-cars', controller.postCars); //Create new car
 
-module.exports = carsRoute;
+module.exports = route;

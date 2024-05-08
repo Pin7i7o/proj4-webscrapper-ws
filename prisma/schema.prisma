@@ -29,7 +29,7 @@ model Responses {
 
 model Scrap {
   id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  date_hour  DateTime    @db.Timestamp(6)
+  date_hour  DateTime    @db.Timestamptz(6)
   cars_id_fk String      @db.Uuid
   Responses  Responses[]
   Cars       Cars        @relation(fields: [cars_id_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Cars_fk_constraint")

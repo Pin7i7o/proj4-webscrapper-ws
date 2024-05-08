@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-exports.createCars = async (req, res) => {
+exports.postCars = async (req, res) => {
     //get car properties from the request
     const { make, model, url} = req.body;
     try {
