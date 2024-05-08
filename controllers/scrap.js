@@ -15,14 +15,14 @@ exports.getLatestCars = async (req, res) => {
 exports.getHistoryById = async (req, res) => {
     const carId = req.params.carId;
     try {
-        const response = await prisma.scrap.findMany({
+        const scrap = await prisma.scrap.findMany({
             where: {
-                cars_id_fk: carId,
+                cars_id_fk: carId
             },
-        })
-        res.status(200).json(response)
+        });
+        res.status(200).json(scrap);
     } catch (error) {
-        res.status(404).json({ msg: error.message })
+        res.status(404).json({ msg: error.message });
     }
 }
 

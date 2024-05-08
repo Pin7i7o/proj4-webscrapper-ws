@@ -1,6 +1,20 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+exports.getResponsesById = async (req, res) => {
+    const scrapId = req.params.scrapId;
+    try {
+        const response = await prisma.responses.findMany({
+            where: {
+                scrap_id_fk: scrapId
+            },
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(404).json({ msg: error.message });
+    }
+}
+
 //add responses to he db
 exports.postResponses = async (req, res) => {
     const responseData = req.body;
