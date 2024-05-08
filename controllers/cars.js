@@ -22,11 +22,11 @@ exports.postCars = async (req, res) => {
                 make: make,
                 url: url
             },
-        })
+        });
 
-        res.status(201).json(car)
+        res.status(201).json(car);
     } catch (error) {
-        res.status(400).json({ msg: error.message })
+        res.status(400).json({ msg: error.message });
     }
 }
 

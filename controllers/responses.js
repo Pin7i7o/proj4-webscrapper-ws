@@ -19,8 +19,8 @@ exports.postResponses = async (req, res) => {
             });
             return response;
         }));
-        res.status(201).json(responses)
+        res.status(201).json(responses);
     } catch (error) {
-        res.status(400).json({ msg: error.message })
+        res.status(400).json({ msg: error.message });
     }
 }

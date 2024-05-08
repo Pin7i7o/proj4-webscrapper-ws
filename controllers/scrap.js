@@ -11,6 +11,21 @@ exports.getLatestCars = async (req, res) => {
 
 }
 
+//return scrap history by id
+exports.getHistoryById = async (req, res) => {
+    const carId = req.params.carId;
+    try {
+        const response = await prisma.scrap.findMany({
+            where: {
+                cars_id_fk: carId,
+            },
+        })
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(404).json({ msg: error.message })
+    }
+}
+
 //add scraping history to he db
 exports.postScrapHistory = async (req, res) => {
     const { cars_id_fk} = req.body;
@@ -21,9 +36,9 @@ exports.postScrapHistory = async (req, res) => {
                 date_hour: date_hour,
                 cars_id_fk: cars_id_fk
             },
-        })
-        res.status(201).json(scrap)
+        });
+        res.status(201).json(scrap);
     } catch (error) {
-        res.status(400).json({ msg: error.message })
+        res.status(400).json({ msg: error.message });
     }
 }
