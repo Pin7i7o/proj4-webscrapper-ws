@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-exports.getResponsesById = async (req, res) => {
+exports.getById = async (req, res) => {
     const scrapId = req.params.scrapId;
     try {
         const response = await prisma.responses.findMany({
@@ -16,7 +16,7 @@ exports.getResponsesById = async (req, res) => {
 }
 
 //add responses to he db
-exports.postResponses = async (req, res) => {
+exports.create = async (req, res) => {
     const responseData = req.body;
 
     try {
