@@ -28,6 +28,7 @@ exports.create = async (req, res) => {
                     year: data.year,
                     price: data.price,
                     url: data.url,
+                    published_date: data.published_date,
                     scrap_id_fk: data.scrap_id_fk
                 },
             });
