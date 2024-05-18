@@ -1,31 +1,55 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-//Webscraper to get info on the 10 cars
 exports.scrapeLast10 = async (url) => {
-    try{
+    try {
         const { data: html } = await axios.get(url);
         const $ = cheerio.load(html);
         let last10Cars = [];
 
-        const cars = $('[data-testid="search-results"] section.ooa-10gfd0w.e1i3khom1');
-        let count = 0;
-        cars.each((i, car) => {
-            if (count == 10) return;
-            const data = {
-                modelMake: $(car).find('h1.e1i3khom9.ooa-1ed90th.er34gjf0 > a').text(),
-                km: $(car).find('[data-parameter="mileage"]').text(),
-                year: $(car).find('[data-parameter="first_registration_year"]').text(),
-                price: $(car).find('h3.e1i3khom16.ooa-1n2paoq.er34gjf0').text(),
-                url: $(car).find('h1.e1i3khom9.ooa-1ed90th.er34gjf0 > a').attr('href')
-            };
+        const cars = $('main > div > div > div > div > div > article > section');
 
-            last10Cars.push(data);
-            count++;
-        });
+        const carPromises = cars.map((i, car) => {
+            return (async () => {
+                if (last10Cars.length >= 10) return;
 
+                const modelMake = $(car).find('div > h1 > a:first').text();
+                const km = $(car).find('[data-parameter="mileage"]').text();
+                const year = $(car).find('[data-parameter="first_registration_year"]').text();
+                const price = $(car).find('h3:first').text();
+                const url = $(car).find('div > h1 > a:first').attr('href');
+                const published = await getPublishedDate(url);
+
+                const data = {
+                    modelMake,
+                    km,
+                    year,
+                    price,
+                    url,
+                    published
+                };
+
+                last10Cars.push(data);
+            })();
+        }).get();
+
+        await Promise.all(carPromises);
         return last10Cars;
     } catch (error) {
+        console.error('Error in scrapeLast10:', error);
         throw error;
-    };
-}
+    }
+};
+
+const getPublishedDate = async (url) => {
+    try {
+        const { data: detailHtml } = await axios.get(url);
+        const $ = cheerio.load(detailHtml);
+
+        let published = $('[data-testid="action-area"] > div > p:first').text();
+        return published;
+    } catch (error) {
+        console.error(`Error fetching published date for ${url}:`, error);
+        return null; 
+    }
+};
