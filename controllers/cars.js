@@ -4,11 +4,7 @@ const prisma = new PrismaClient();
 //retreives all cars from db
 exports.getAll = async (req, res) => {
     try {
-        const cars = await prisma.cars.findMany({
-            where: {
-                active: true
-            }
-        });
+        const cars = await prisma.cars.findMany();
         res.status(200).json(cars);
     } catch (error) {
         res.status(500).json({ msg: error.message });
