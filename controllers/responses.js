@@ -49,7 +49,7 @@ exports.delete = async (req, res) => {
                 scrap_id_fk: id
             }
         });
-        res.status(200).send("deleted");
+        res.status(200).json({ msg: 'deleted' });
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }

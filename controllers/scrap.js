@@ -52,7 +52,7 @@ exports.delete = async (req, res) => {
                 id: id
             }
         });
-        res.status(200).send("deleted");
+        res.status(200).json({ msg: 'deleted' });
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }
