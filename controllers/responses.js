@@ -39,3 +39,18 @@ exports.create = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 }
+
+//delete responses by scrap id
+exports.delete = async (req, res) => {
+    const id = req.params.id;
+    try {
+        await prisma.responses.deleteMany({
+            where: {
+                scrap_id_fk: id
+            }
+        });
+        res.status(200).send("deleted");
+    } catch (error) {
+        res.status(400).json({ msg: error.message })
+    }
+}

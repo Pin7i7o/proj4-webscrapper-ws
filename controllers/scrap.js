@@ -35,10 +35,25 @@ exports.create = async (req, res) => {
             data:{
                 date_hour: date_hour,
                 cars_id_fk: cars_id_fk
-            },
+            }
         });
         res.status(201).json(scrap);
     } catch (error) {
         res.status(400).json({ msg: error.message });
+    }
+}
+
+//delete scrap history by id
+exports.delete = async (req, res) => {
+    const id = req.params.id;
+    try {
+        await prisma.scrap.delete({
+            where: {
+                id: id
+            }
+        });
+        res.status(200).send("deleted");
+    } catch (error) {
+        res.status(400).json({ msg: error.message })
     }
 }
