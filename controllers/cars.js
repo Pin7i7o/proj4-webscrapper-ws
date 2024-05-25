@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-//retreives all cars from db
+//gets all cars from db
 exports.getAll = async (req, res) => {
     try {
         const cars = await prisma.cars.findMany();
@@ -30,6 +30,7 @@ exports.create = async (req, res) => {
     }
 }
 
+//updates a car
 exports.update = async (req, res) => {
     const { id, make, model, url, active } = req.body;
 

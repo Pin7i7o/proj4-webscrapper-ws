@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-
+//Gets published date from an url
 exports.getPublishedDate = async (url) => {
     try {
         const { data: detailHtml } = await axios.get(url);
@@ -17,6 +17,7 @@ exports.getPublishedDate = async (url) => {
     }
 };
 
+//Returns a reconstructed date from published date
 const parseDate = (dateStr) => {
     const date = dateStr.split(' ');
     
@@ -32,7 +33,7 @@ const parseDate = (dateStr) => {
     return new Date(year, month, day, hour, minutes);
   }
 
-
+//Returns a months number given its name
 const monthToNumber = (month) => {
     const months = new Map();
 

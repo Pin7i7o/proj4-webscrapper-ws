@@ -2,6 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const dateParser = require('../utils/dateParser');
 
+//Gets the 10 most recently posted cars from an url
 exports.scrapeLast10 = async (url) => {
     try {
         const { data: html } = await axios.get(url);

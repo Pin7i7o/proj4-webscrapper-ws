@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const services = require('../services/scrap');
 
-//return the 10 most recently posted cars w/o filters
+//get the 10 most recently posted cars w/o filters
 exports.getLatestCars = async (req, res) => {
     const { km, fromYear, toYear, fromPrice, toPrice, url } = req.query;
     const params = await services.getLatest10(km, fromYear, toYear, fromPrice, toPrice, url);
@@ -11,7 +11,7 @@ exports.getLatestCars = async (req, res) => {
 
 }
 
-//return scrap history by id
+//get scrap history by id
 exports.getById = async (req, res) => {
     const carId = req.params.carId;
     try {

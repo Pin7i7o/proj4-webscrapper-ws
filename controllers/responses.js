@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+//gets all entries with a specific scrap_id_fk
 exports.getById = async (req, res) => {
     const scrapId = req.params.scrapId;
     try {
