@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+//gets all entries with a specific scrap_id_fk
 exports.getById = async (req, res) => {
     const scrapId = req.params.scrapId;
     try {
@@ -37,5 +38,20 @@ exports.create = async (req, res) => {
         res.status(201).json(responses);
     } catch (error) {
         res.status(400).json({ msg: error.message });
+    }
+}
+
+//delete responses by scrap id
+exports.delete = async (req, res) => {
+    const id = req.params.id;
+    try {
+        await prisma.responses.deleteMany({
+            where: {
+                scrap_id_fk: id
+            }
+        });
+        res.status(200).json({ msg: 'deleted' });
+    } catch (error) {
+        res.status(400).json({ msg: error.message })
     }
 }
