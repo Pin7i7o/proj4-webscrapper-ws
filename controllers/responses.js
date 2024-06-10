@@ -1,5 +1,16 @@
+const Joi = require('joi');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+
+const responsesSchema = Joi.object({
+    model_make: Joi.string().required(),
+    km: Joi.string().required(),
+    year: Joi.string().required(),
+    price: Joi.string().required(),
+    url: Joi.string().required(),
+    published_date: Joi.date().iso().required(),
+    scrap_id_fk: Joi.string().required(),
+});
 
 //gets all entries with a specific scrap_id_fk
 exports.getById = async (req, res) => {
@@ -19,6 +30,12 @@ exports.getById = async (req, res) => {
 //add responses to he db
 exports.create = async (req, res) => {
     const responseData = req.body;
+
+    const { error } = Joi.array().items(responsesSchema).validate(responseData);
+
+    if (error) {
+        return res.status(400).json({ msg: error.details[0].message });
+    }
 
     try {
         const responses = await Promise.all(responseData.map(async (data) => {
