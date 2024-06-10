@@ -2,10 +2,16 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const services = require('../services/scrap');
+const { urlValidation } = require('../utils/urlValidation');
 
 //get the 10 most recently posted cars w/o filters
 exports.getLatestCars = async (req, res) => {
     const { km, fromYear, toYear, fromPrice, toPrice, url } = req.query;
+
+    if (!urlValidation(url)) {
+        return res.status(400).json({ error: 'Invalid URL' });
+    }
+
     const params = await services.getLatest10(km, fromYear, toYear, fromPrice, toPrice, url);
     res.json(params);
 
