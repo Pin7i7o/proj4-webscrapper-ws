@@ -3,10 +3,13 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
+const helmet = require('helmet');
 
 const router = require('./routes/index');
 
 const app = express();
+
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
 
