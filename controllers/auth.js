@@ -98,7 +98,7 @@ exports.updateVisibility = async (req, res) => {
     try {
         const { id, isActive } = req.body;
 
-        const car = await prisma.users.update({
+        await prisma.users.update({
             where: {
                 id: id
             },
@@ -116,7 +116,7 @@ exports.updatePermissions = async (req, res) => {
     try {
         const { id, isAdmin } = req.body;
 
-        const car = await prisma.users.update({
+        await prisma.users.update({
             where: {
                 id: id
             },
