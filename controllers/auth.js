@@ -9,44 +9,87 @@ exports.signin = async (req, res) => {
         const { email, password } = req.body;
 
         const user = await prisma.users.findUnique({
-            where: {
+            where: { email: email }
+        });
+
+        if (user) {
+            if (!user.isActive) {
+                return res.status(403).json({ msg: 'User is inactive' });
+            }
+
+            const passwordIsValid = await bcrypt.compare(password, user.password);
+
+            if (passwordIsValid) {
+                const accessToken = authenticateUtil.generateAccessToken({ id: user.id, name: user.name });
+                return res.status(200).json({ name: user.name, token: accessToken });
+            } else {
+                return res.status(401).json({ msg: 'Invalid password' });
+            }
+
+        } else {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+    } catch (error) {
+        console.error('Error in signin endpoint:', error);
+        res.status(500).json({ msg: error.message });
+    }
+}
+
+exports.signup = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+
+        const user = await prisma.users.create({
+            data: {
                 email: email,
+                name: name,
+                password: bcrypt.hashSync(password, 8)
             },
         })
 
-        if (user) {
-            var passwordIsValid = bcrypt.compareSync(
-                password,
-                user.password
-            );
-
-            if (passwordIsValid) {
-                const accessToken = authenticateUtil.generateAccessToken({ id: user.id, name: user.name, isAdmin : user.isAdmin });
-                res.status(200).json({ name: user.name, token: accessToken });
-            }
-        }
-
+        res.status(200).json(user);
     } catch (error) {
         res.status(401).json({ msg: error.message })
     }
 }
 
-
-exports.signup = async (req, res) => {
+exports.getAllUsers = async (req, res) => {
     try {
-        const { name, email, password, isAdmin } = req.body;
-
-        await prisma.users.create({
-            data: {
-                email: email,
-                name: name,
-                password: bcrypt.hashSync(password, 8),
-                isAdmin: isAdmin
-            },
-        })
-
-        return this.signin(req, res);
+        const users = await prisma.users.findMany();
+        res.status(200).json(users);
     } catch (error) {
-        res.status(401).json({ msg: error.message })
+        res.status(500).json({ msg: error.message });
+    }
+}
+
+exports.changePassword = async (req, res) => {
+    try {
+        const { email, oldPassword, newPassword } = req.body;
+
+        const user = await prisma.users.findUnique({
+            where: { email: email }
+        });
+
+        if (user) {
+            if (!user.isActive) {
+                return res.status(403).json({ msg: 'User is inactive' });
+            }
+
+            const passwordIsValid = await bcrypt.compareSync(oldPassword, user.password);
+
+            if (passwordIsValid) {
+                await prisma.users.update({
+                    where: { email: email },
+                    data: { password: bcrypt.hashSync(newPassword, 8) }
+                });
+                return res.status(200).json({ msg: 'Password changed successfully' });
+            } else {
+                return res.status(401).json({ msg: 'Old password is incorrect' });
+            }
+        } else {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
     }
 }
