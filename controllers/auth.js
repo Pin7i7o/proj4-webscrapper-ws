@@ -93,3 +93,39 @@ exports.changePassword = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 }
+
+exports.updateVisibility = async (req, res) => {
+    try {
+        const { id, isActive } = req.body;
+
+        const car = await prisma.users.update({
+            where: {
+                id: id
+            },
+            data: {
+                isActive: isActive
+            }
+        });
+        res.status(200).json({msg: "User Updated"});
+    } catch (error) {
+        res.status(400).json({ msg: error.message })
+    }
+}
+
+exports.updatePermissions = async (req, res) => {
+    try {
+        const { id, isAdmin } = req.body;
+
+        const car = await prisma.users.update({
+            where: {
+                id: id
+            },
+            data: {
+                isAdmin: isAdmin
+            }
+        });
+        res.status(200).json({msg: "User Updated"});
+    } catch (error) {
+        res.status(400).json({ msg: error.message })
+    }
+}
