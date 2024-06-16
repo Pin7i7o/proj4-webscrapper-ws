@@ -14,8 +14,9 @@ const responsesSchema = Joi.object({
 
 //gets all entries with a specific scrap_id_fk
 exports.getById = async (req, res) => {
-    const { scrap_id_fk } = req.body;
     try {
+        const scrap_id_fk = req.params.scrapId;
+
         const response = await prisma.responses.findMany({
             where: {
                 scrap_id_fk: scrap_id_fk
@@ -60,8 +61,8 @@ exports.create = async (req, res) => {
 
 //delete responses by scrap id
 exports.delete = async (req, res) => {
-    const { scrap_id_fk } = req.body;
     try {
+        const scrap_id_fk  = req.params.id;
         await prisma.responses.deleteMany({
             where: {
                 scrap_id_fk: scrap_id_fk
