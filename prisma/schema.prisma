@@ -8,12 +8,14 @@ datasource db {
 }
 
 model Cars {
-  id     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  model  String?  @db.VarChar
-  make   String?  @db.VarChar
-  url    String   @db.VarChar
-  active Boolean? @default(true)
-  Scrap  Scrap[]
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  model      String?  @db.VarChar
+  make       String?  @db.VarChar
+  url        String   @db.VarChar
+  active     Boolean? @default(true)
+  user_id_fk String   @db.Uuid
+  Users      Users    @relation(fields: [user_id_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cars_users_fk")
+  Scrap      Scrap[]
 }
 
 model Responses {
@@ -36,10 +38,12 @@ model Scrap {
   Cars       Cars        @relation(fields: [cars_id_fk], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Cars_fk_constraint")
 }
 
-model Users{
-    id String  @id @default(uuid())
-    name String  @db.VarChar(255)
-    email String @unique
-    password String
-    isAdmin   Boolean @default(false)
+model Users {
+  id       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name     String  @db.VarChar(255)
+  email    String  @unique
+  password String
+  isAdmin  Boolean @default(false)
+  isActive Boolean @default(true)
+  Cars     Cars[]
 }
