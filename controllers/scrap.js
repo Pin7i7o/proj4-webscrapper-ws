@@ -19,11 +19,11 @@ exports.getLatestCars = async (req, res) => {
 
 //get scrap history by id
 exports.getById = async (req, res) => {
-    const carId = req.params.carId;
+    const { cars_id_fk } = req.body
     try {
         const scrap = await prisma.scrap.findMany({
             where: {
-                cars_id_fk: carId
+                cars_id_fk: cars_id_fk
             }
         });
         res.status(200).json(scrap);
@@ -34,7 +34,7 @@ exports.getById = async (req, res) => {
 
 //add scraping history to he db
 exports.create = async (req, res) => {
-    const { cars_id_fk} = req.body;
+    const { cars_id_fk } = req.body;
     const date_hour = new Date();
     try {
         const scrap = await prisma.scrap.create({
@@ -51,7 +51,7 @@ exports.create = async (req, res) => {
 
 //delete scrap history by id
 exports.delete = async (req, res) => {
-    const id = req.params.id;
+    const { id } = req.body;
     try {
         await prisma.scrap.delete({
             where: {

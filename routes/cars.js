@@ -1,7 +1,7 @@
 const route = require('express').Router();
 const controller = require('../controllers/cars');
 
-route.get('/get-all', controller.getAll); //Gets all cars
+route.get('/get-all', controller.getAll); //Gets all cars for a specific user
 route.post('/create', controller.create); //Create new car
 route.put('/update', controller.update); //Update car
 
