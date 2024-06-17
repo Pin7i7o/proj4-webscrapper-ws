@@ -24,5 +24,3 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
     res.status(200).json('Welcome, your app is working well!');
 });
-
-export default app;
