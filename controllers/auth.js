@@ -97,7 +97,7 @@ exports.changePassword = async (req, res) => {
                     where: { email: email },
                     data: { password: bcrypt.hashSync(newPassword, 8) }
                 });
-                return res.status(200).json({ msg: 'Password changed successfully' });
+                return res.status(200).json(user);
             } else {
                 return res.status(401).json({ msg: 'Old password is incorrect' });
             }
@@ -113,7 +113,7 @@ exports.updateVisibility = async (req, res) => {
     try {
         const { id, isActive } = req.body;
 
-        await prisma.users.update({
+        const user = await prisma.users.update({
             where: {
                 id: id
             },
@@ -121,7 +121,7 @@ exports.updateVisibility = async (req, res) => {
                 isActive: isActive
             }
         });
-        res.status(200).json({msg: "User Updated"});
+        res.status(200).json(user);
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }
@@ -131,7 +131,7 @@ exports.updatePermissions = async (req, res) => {
     try {
         const { id, isAdmin } = req.body;
 
-        await prisma.users.update({
+        const user = await prisma.users.update({
             where: {
                 id: id
             },
@@ -139,7 +139,7 @@ exports.updatePermissions = async (req, res) => {
                 isAdmin: isAdmin
             }
         });
-        res.status(200).json({msg: "User Updated"});
+        res.status(200).json(user);
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }
