@@ -62,6 +62,21 @@ exports.getAllUsers = async (req, res) => {
     }
 }
 
+exports.getUserById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        
+        const user = await prisma.users.findUnique({
+            where: {
+                id: id
+            }
+        });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(404).json({ msg: error.message });
+    }
+}
+
 exports.changePassword = async (req, res) => {
     try {
         const { email, oldPassword, newPassword } = req.body;
